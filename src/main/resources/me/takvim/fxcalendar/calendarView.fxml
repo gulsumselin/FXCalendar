@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.takvim.fxcalendar.Controller.CalendarViewController"
+            prefWidth="320.0" prefHeight="300.0">
+    <center>
+        <GridPane fx:id="calendarGrid" alignment="CENTER" translateY="25">
+            <!-- Takvim -->
+        </GridPane>
+    </center>
+    <bottom>
+        <HBox spacing="10.0" alignment="CENTER">
+            <Button text="Önceki" onAction="#prevMonthButtonClicked" />
+            <Label fx:id="monthYearLabel" />
+            <Button text="Sonraki" onAction="#nextMonthButtonClicked" />
+            <Button text="Kapat" onAction="#closeCalendar" />
+        </HBox>
+    </bottom>
+</BorderPane>

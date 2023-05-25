@@ -1,15 +1,12 @@
 package me.takvim.fxcalendar.Controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
 
@@ -51,11 +48,40 @@ public class EventAddController {
 
     @FXML
     private void addButtonClicked() {
-        String operationTime = operationTimePicker.getValue().toString();
+        LocalDate operationDate;
+        try {
+            operationDate = operationTimePicker.getValue();
+            if (operationDate == null) {
+                operationTimePicker.getEditor().clear();
+                showAlert("Hata", null, "Lütfen geçerli bir tarih formatı girin.", Alert.AlertType.ERROR);
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        String operationTime = operationDate.toString();
+        //Saat regex: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+        String timeRegex = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
         String startTime = startTimeField.getText();
         String endTime = endTimeField.getText();
+        if (!startTime.matches(timeRegex)) {
+            System.out.println("Hata: Lütfen başlangıç saat değerlerini HH:mm formatında girin.");
+            showAlert("Hata !", null, "Lütfen başlangıç saat formatını düzgün girin!", Alert.AlertType.ERROR);
+            startTimeField.setText("");
+            return;
+        }
+
+        if(!endTime.matches(timeRegex)) {
+            System.out.println("Hata: Lütfen bitiş saat değerlerini HH:mm formatında girin.");
+            showAlert("Hata !", null, "Lütfen bitiş saat formatını düzgün girin !", Alert.AlertType.ERROR);
+            endTimeField.setText("");
+            return;
+        }
+
         String eventType = eventTypeField.getText();
         String eventDescription = eventDescriptionArea.getText();
+
 
         Event newEvent = new Event(operationTime, startTime, endTime, eventType, eventDescription, userName);
 
@@ -67,6 +93,16 @@ public class EventAddController {
 
         Stage stage = (Stage) addButton.getScene().getWindow();
         stage.close();
+    }
+
+
+
+    private void showAlert(String title, String header, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML

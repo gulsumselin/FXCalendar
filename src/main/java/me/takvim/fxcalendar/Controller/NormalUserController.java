@@ -123,7 +123,7 @@ public class NormalUserController {
         eventTable.getItems().setAll(events);
 
         if (events.isEmpty()) {
-            showAlert("Bilgi", null, "Seçtiğiniz tarihte bir olay eklenmemiş.", Alert.AlertType.ERROR);
+            //showAlert("Bilgi", null, "Seçtiğiniz tarihte bir olay eklenmemiş.", Alert.AlertType.ERROR);
             events = readEventsFromFile(userName);
             populateEventTable(events);
         }

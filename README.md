@@ -1,4 +1,8 @@
 # FXCalendar
+Hazırlayanlar:
+- Gülsüm Selin Mengi -- 212802047
+- Ceren Okyay -- 212802041
+- Sıla Taştekin -- 212802027
 
 Kullanıcı Türleri:
 - Admin

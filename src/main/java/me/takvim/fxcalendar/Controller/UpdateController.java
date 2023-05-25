@@ -86,11 +86,11 @@ public class UpdateController implements Initializable {
 
     private void updateEventList(String islemZamani, String baslangicZamani, String bitisZamani, String olayTipi, String olayAciklama) {
         Event newEvent = new Event(islemZamani, baslangicZamani, bitisZamani, olayTipi, olayAciklama, userName);
-        eventTable.getItems().get(dosyadakiSatirNo-2).setOperationTime(newEvent.getOperationTime());
-        eventTable.getItems().get(dosyadakiSatirNo-2).setStartTime(newEvent.getStartTime());
-        eventTable.getItems().get(dosyadakiSatirNo-2).setEndTime(newEvent.getEndTime());
-        eventTable.getItems().get(dosyadakiSatirNo-2).setEventType(newEvent.getEventType());
-        eventTable.getItems().get(dosyadakiSatirNo-2).setEventDescription(newEvent.getEventDescription());
+        eventTable.getItems().get(dosyadakiSatirNo-1).setOperationTime(newEvent.getOperationTime());
+        eventTable.getItems().get(dosyadakiSatirNo-1).setStartTime(newEvent.getStartTime());
+        eventTable.getItems().get(dosyadakiSatirNo-1).setEndTime(newEvent.getEndTime());
+        eventTable.getItems().get(dosyadakiSatirNo-1).setEventType(newEvent.getEventType());
+        eventTable.getItems().get(dosyadakiSatirNo-1).setEventDescription(newEvent.getEventDescription());
     }
 
     private void updateFile(String veri, int satirNo) {

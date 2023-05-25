@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
 
@@ -124,14 +125,18 @@ public class EventAddController {
         Thread countdownThread = new Thread(() -> {
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                LocalTime eventStartTime = LocalTime.parse(startTime, formatter);
-
+                LocalDate currentDate = LocalDate.now();
                 LocalTime currentTime = LocalTime.now();
+                LocalDateTime currentDateTime = LocalDateTime.of(currentDate, currentTime);
 
-                long delayInMillis = eventStartTime.toSecondOfDay() - currentTime.toSecondOfDay();
+                LocalDate eventDate = operationTimePicker.getValue();
+                LocalTime eventTime = LocalTime.parse(startTime, formatter);
+                LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventTime);
+
+                long delayInMillis = java.time.Duration.between(currentDateTime, eventDateTime).toMillis();
 
                 if (delayInMillis > 0) {
-                    Thread.sleep(delayInMillis * 1000);
+                    Thread.sleep(delayInMillis);
                 }
 
                 playSound("bip.mp3");

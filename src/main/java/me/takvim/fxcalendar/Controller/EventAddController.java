@@ -61,36 +61,41 @@ public class EventAddController {
             System.out.println(e.getMessage());
             return;
         }
-        String operationTime = operationDate.toString();
-        //Saat regex: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
-        String timeRegex = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-        String startTime = startTimeField.getText();
-        String endTime = endTimeField.getText();
-        if (!startTime.matches(timeRegex)) {
-            System.out.println("Hata: Lütfen başlangıç saat değerlerini HH:mm formatında girin.");
-            showAlert("Hata !", null, "Lütfen başlangıç saat formatını düzgün girin!", Alert.AlertType.ERROR);
-            startTimeField.setText("");
-            return;
+        if(!operationDate.isBefore(LocalDate.now())) {
+            String operationTime = operationDate.toString();
+            //Saat regex: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+            String timeRegex = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+            String startTime = startTimeField.getText();
+            String endTime = endTimeField.getText();
+            if (!startTime.matches(timeRegex)) {
+                System.out.println("Hata: Lütfen başlangıç saat değerlerini HH:mm formatında girin.");
+                showAlert("Hata !", null, "Lütfen başlangıç saat formatını düzgün girin!", Alert.AlertType.ERROR);
+                startTimeField.setText("");
+                return;
+            }
+
+            if(!endTime.matches(timeRegex)) {
+                System.out.println("Hata: Lütfen bitiş saat değerlerini HH:mm formatında girin.");
+                showAlert("Hata !", null, "Lütfen bitiş saat formatını düzgün girin !", Alert.AlertType.ERROR);
+                endTimeField.setText("");
+                return;
+            }
+
+            String eventType = eventTypeField.getText();
+            String eventDescription = eventDescriptionArea.getText();
+
+
+            Event newEvent = new Event(operationTime, startTime, endTime, eventType, eventDescription, userName);
+
+            saveEventToFile(newEvent);
+
+            eventTable.getItems().add(newEvent);
+
+            playBipSound(startTime);
+        } else {
+            showAlert("Hata!", null, "Geçmiş tarihli olay belirleyemezsiniz", Alert.AlertType.ERROR);
         }
 
-        if(!endTime.matches(timeRegex)) {
-            System.out.println("Hata: Lütfen bitiş saat değerlerini HH:mm formatında girin.");
-            showAlert("Hata !", null, "Lütfen bitiş saat formatını düzgün girin !", Alert.AlertType.ERROR);
-            endTimeField.setText("");
-            return;
-        }
-
-        String eventType = eventTypeField.getText();
-        String eventDescription = eventDescriptionArea.getText();
-
-
-        Event newEvent = new Event(operationTime, startTime, endTime, eventType, eventDescription, userName);
-
-        saveEventToFile(newEvent);
-
-        eventTable.getItems().add(newEvent);
-
-        playBipSound(startTime);
 
         Stage stage = (Stage) addButton.getScene().getWindow();
         stage.close();
